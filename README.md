@@ -4,4 +4,8 @@ Using Django and python we will stand up a rest API for our users to interact wi
 
 Will have Police models as well as user and incident report models.
 
+
 Morgan
+
+Cassio
+
