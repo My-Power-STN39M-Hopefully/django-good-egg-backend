@@ -2,7 +2,7 @@
 name: Model Request
 about: Add Model with CRUD Access
 title: Create MODEL_NAME model and CRUD controller
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
