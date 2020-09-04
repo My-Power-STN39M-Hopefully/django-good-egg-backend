@@ -1,4 +1,4 @@
-#Good Egg backend
+# Good Egg backend
 
 A Police Accountability App, that focuses on good eggs and bad apples. It allows users to anonymously submit police incidents, view other user’s submissions, and view officer information along with the incidents made against them.
 
