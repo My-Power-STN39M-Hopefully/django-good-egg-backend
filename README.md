@@ -17,4 +17,4 @@ https://docs.google.com/document/d/1RGpx1xOSL_z0AiBbX2pEe-yl0YwTn9aa5qOiA1ZrDQY/
 * [Caleb-Hollingsworth](https://github.com/Caleb-Hollingsworth)
 
 ## Local Development First Time Install
-[First Time Developer Start Here](https://github.com/My-Power-STN39M-Hopefully/django-good-egg-backend/wiki/First-Time-Development-(Mac))
+[First Time Developer Start Here](https://github.com/My-Power-STN39M-Hopefully/django-good-egg-backend/wiki/First-Time-Development-(Mac)#first-time-install)
