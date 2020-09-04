@@ -1,7 +1,7 @@
 ---
 name: Model Request
 about: Add Model with CRUD Access
-title: ''
+title: Create officer ~~model~~ and CRUD controller
 labels: ''
 assignees: ''
 
