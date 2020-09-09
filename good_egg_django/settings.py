@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'good_egg',
     'rest_framework',
+    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
