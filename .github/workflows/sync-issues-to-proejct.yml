@@ -1,5 +1,7 @@
 name: '[A] Move to correct project'
 on:
+  pull_request:
+    types: [opened]
   issue_comment:
     types: [created]
 jobs:
