@@ -8,18 +8,18 @@ assignees: ''
 ---
 
 ## Model Name
-~~model needs name~~
+What is the model name
 
 ### Columns
-*
-*
-*
+- [ ] Column One
+- [x] Column Two
+- [ ] Column Three
 
 **Describe CRUD Setup**
-Can only some users access certain CRUD access? 
+- [ ] Can only some users access certain CRUD access? 
 
 **Additional Endpoints Required**
-Any other endpoints need to be added that aren't a standard CRUD setup?
+- [ ] Any other endpoints need to be added that aren't a standard CRUD setup?
 
 _Outside Help_
 [Django Model Documentation](https://docs.djangoproject.com/en/2.1/ref/models/fields/)
