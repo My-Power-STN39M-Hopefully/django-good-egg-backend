@@ -1,7 +1,5 @@
 name: '[A] Move to correct project'
 on:
-  pull_request:
-    types: [opened]
   issue_comment:
     types: [created]
 jobs:
@@ -9,22 +7,13 @@ jobs:
   update-issues-and-pr-tohave-correct-project:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '@migrate-project'
-          reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - name: Assign issue to repo project
-        if: steps.check.outputs.triggered == 'true'
         uses: srggrs/assign-one-project-github-action@1.2.0
         with: 
           project: 'https://github.com/My-Power-STN39M-Hopefully/django-good-egg-backend/projects/2'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Assign issue to org project
-        if: steps.check.outputs.triggered == 'true'
         uses: srggrs/assign-one-project-github-action@1.2.0
         with:
           project: 'https://github.com/orgs/My-Power-STN39M-Hopefully/projects/3'
