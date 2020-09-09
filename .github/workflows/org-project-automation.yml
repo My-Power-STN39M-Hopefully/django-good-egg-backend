@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Assign to Organization master project: Master'
     steps:
-    - name: Assign NEW issues and pull request to Cassio is Great Indeed
-      uses: srggrs/assign-one-project-github-action@1.2.0
+    - uses: srggrs/assign-one-project-github-action@1.2.0
       if: github.event.action == 'opened'
       with:
         project: 'https://github.com/orgs/My-Power-STN39M-Hopefully/projects/3'
