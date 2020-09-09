@@ -1,0 +1,17 @@
+name: "[A] Org Project Main add on Issues/PRs"
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, synchronize]
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.AUTOMATE_ISSUES_PULL_REQUESTS }}
+jobs:
+  assign_one_project:
+    runs-on: ubuntu-latest
+    name: 'Assign to Organization master project: Master'
+    steps:
+    - uses: srggrs/assign-one-project-github-action@1.2.0
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/orgs/My-Power-STN39M-Hopefully/projects/3'
