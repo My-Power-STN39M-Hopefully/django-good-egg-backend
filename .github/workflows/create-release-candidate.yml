@@ -1,0 +1,31 @@
+name: '[M] Create Release Candidate Branch'
+on:
+  workflow_dispatch:
+jobs:
+  #Uses https://github.com/marketplace/actions/create-branch
+  create-release-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-T%H.%M.%S')"
+      - name: Create release branch name
+        id: branch
+        run: echo "::set-output name=name::$(echo release-candidate-UTC-${{ steps.date.outputs.date }})"
+      - name: Make release branch
+        run: |
+          git checkout -b ${{ steps.branch.outputs.name }}
+          git push -u origin ${{ steps.branch.outputs.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.branch.outputs.name }}
+      - name: Setup Hub
+        uses: Geertvdc/setup-hub@v1.0.0
+      - name: Create pull request
+        run: |
+          hub pull-request -b master -m "[A] Release Candidate $(date +'%Y-%m-%d-T%H.%M.%S') UTC" -l release,"automated pr"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
