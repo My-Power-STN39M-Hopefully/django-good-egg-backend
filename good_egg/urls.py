@@ -8,5 +8,7 @@ from . import models
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('force/', views.ForceList.as_view(), name='force_list'),
-    path('force/<int:pk>', views.ForceDetail.as_view(), name='force_detail')
+    path('force/<int:pk>', views.ForceDetail.as_view(), name='force_detail'),
+    path('officer/', views.OfficerList.as_view(), name='officer_list'),
+    path('officer/<int:pk>', views.OfficerDetail.as_view(), name='officer_detail'),
 ]

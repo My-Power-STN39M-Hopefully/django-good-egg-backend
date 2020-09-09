@@ -14,7 +14,7 @@ class Force(models.Model):
       return f'{self.name}'
 
 class Officer(models.Model):
-  fist_name = models.CharField(max_length=100, null=True)
+  first_name = models.CharField(max_length=100, null=True)
   last_name = models.CharField(max_length=100)
   dob = models.DateField(null=True)
   badge_number = models.CharField(max_length=100, null=True)
@@ -26,7 +26,6 @@ class Officer(models.Model):
 
   def __str__(self):
       return f'{self.first_name} {self.last_name}, {self.badge_number} {self.force}.  {self.active}'
-
 
 class Incident(models.Model):
   category = models.CharField(max_length=100)
