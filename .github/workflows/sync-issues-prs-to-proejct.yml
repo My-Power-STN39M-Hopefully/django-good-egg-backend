@@ -1,4 +1,4 @@
-name: '[M] Create Release Candidate Branch'
+name: '[A] Move to correct project'
 on: [issues, pull_request]
 jobs:
   #Uses https://github.com/marketplace/actions/create-branch
