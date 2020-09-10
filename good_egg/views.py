@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from rest_framework import generics, mixins
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import generics, mixins, serializers
+from django import core
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ForceSerializer, OfficerSerializer, UserSerializer, IncidentSerializer
 from django.contrib.auth.models import User
@@ -61,30 +64,53 @@ class GoodEggs(generics.ListCreateAPIView):
     serializer_class = IncidentSerializer
 
 
-class BadApples(generics.ListCreateAPIView):
+class BadApples(APIView):
+    permission_classes = []
+    # bad_apples = Incident.objects.filter(
+    #     bad_apple=True).filter(officers__active=True).values('officers').annotate(total=Count('officers'))
 
-    bad_apples = Incident.objects.filter(
-        bad_apple=True).filter(officers__active=True).values('officers').annotate(total=Count('officers'))
-    bad_apples_map = {}
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print(bad_apples)
-    for i in bad_apples:
-        bad_apples_map[i['officers']] = i['total']
-    officers = Officer.objects.filter(active=True)
-    print('!!!!!!!')
-    print('!!!!!!!')
-    print(officers)
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print(bad_apples)
+    # for i in bad_apples:
+    #     bad_apples_map[i['officers']] = i['total']
 
-    for o in officers:
-        o.total = bad_apples_map[o.id]
+    # officers = Officer.objects.filter(active=True)
+    # print('!!!!!!!')
+    # print('!!!!!!!')
+    # print(bad_apples_map[1])
+    # print(f'{officers[0]} {bad_apples_map}')
 
-    queryset = officers
+    # for o in officers:
+    #     o.total = bad_apples_map[o].id
     serializer_class = OfficerSerializer
+
+    def get(self, request):
+        officers = Officer.objects.all()
+        active_officers = []
+        for officer in officers:
+            if officer.active == True:
+                active_officers.append(officer)
+        print(active_officers)
+
+        bad_apple_incidents = Incident.objects.filter(bad_apple=True)
+        for incident in bad_apple_incidents:
+            for officer_in_incident in incident.officers.all():
+                if officer_in_incident in active_officers:
+                    for officer in active_officers:
+                        if officer.id in incident.officers.all():
+                            if hasattr(officer, 'count'):
+                                officer.count = officer.count + 1
+                            else:
+                                officer.count = 1
+        data = core.serializers.serialize(
+            'json', active_officers)
+        return Response(data)
+
 
 # Officer.objects.filter(
     # active = True).annotate(total = bad_apples_map[id])
