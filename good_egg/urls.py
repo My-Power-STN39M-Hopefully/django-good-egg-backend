@@ -12,15 +12,15 @@ from rest_framework_simplejwt.views import (
 # Create your urls here.
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
-    
+
     # force
     path('force/', views.ForceList.as_view(), name='force_list'),
     path('force/<int:pk>', views.ForceDetail.as_view(), name='force_detail'),
-    
+
     # officer
     path('officer/', views.OfficerList.as_view(), name='officer_list'),
     path('officer/<int:pk>', views.OfficerDetail.as_view(), name='officer_detail'),
-    
+
     # user
     path('user/', views.UserList.as_view(), name='user_list'),
     path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
@@ -29,9 +29,10 @@ urlpatterns = [
     # user authentication
     path('user/signin/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('user/signin/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
+
     # incident
     path('incident/', views.IncidentList.as_view(), name='incident_list'),
     path('incident/<int:pk>', views.IncidentDetail.as_view(), name='incident_detail'),
+    path('incident/recent', views.RecentIncidents.as_view(), name='incident_recent')
 
 ]

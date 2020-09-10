@@ -1,3 +1,5 @@
+from django.utils import timezone
+from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect
 from rest_framework import generics, permissions, mixins, status
@@ -62,6 +64,13 @@ class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
     permission_classes = [IsOwnerOrAdminOrReadOnly]
     serializer_class = IncidentSerializer
+
+
+class RecentIncidents(generics.ListAPIView):
+    permission_classes = [IsAdminUserOrReadOnly]
+    serializer_class = IncidentSerializer
+    last_two_weeks = timezone.now().date() - timedelta(days=14)
+    queryset = Incident.objects.filter(date__gte=last_two_weeks)
 
 
 class RegistrationAPIView(APIView):
