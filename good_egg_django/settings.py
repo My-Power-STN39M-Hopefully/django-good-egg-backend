@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'good_egg',
     'rest_framework',
     'phonenumber_field',
-    'corsheaders'
 ]
 
 MIDDLEWARE = [
