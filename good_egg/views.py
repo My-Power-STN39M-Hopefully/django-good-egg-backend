@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
-from .permissions import IsAdminUserOrReadOnly
+from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly
 User = get_user_model()
 
 
@@ -54,13 +54,13 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class IncidentList(generics.ListCreateAPIView, ):
     queryset = Incident.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
     serializer_class = IncidentSerializer
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
     serializer_class = IncidentSerializer
 
 
