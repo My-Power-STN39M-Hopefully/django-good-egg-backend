@@ -117,15 +117,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    env('LOCALHOST_URL'),
-    env('DEVELOPMENT_URL'),
-    env('PRODUCTION_URL'),
-    env('LOCALHOST_URL_HTTPS'),
-    env('PRODUCTION_URL_HTTPS'),
-    env('DEVELOPMENT_URL_HTTPS')
-)
+if(env('IS_PRODUCTION') == True):
+    CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ORIGIN_WHITELIST = (
+        env('LOCALHOST_URL'),
+        env('DEVELOPMENT_URL'),
+        env('PRODUCTION_URL'),
+        env('LOCALHOST_URL_HTTPS'),
+        env('PRODUCTION_URL_HTTPS'),
+        env('DEVELOPMENT_URL_HTTPS')
+    )
+else:
+    CORS_ORIGIN_ALLOW_ALL = True
+
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
