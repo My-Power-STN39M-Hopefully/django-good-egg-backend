@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
+from .permissions import IsAdminUserOrReadOnly
 User = get_user_model()
 
 
@@ -15,15 +16,17 @@ def landing_page(request):
     return render(request, 'landing_page.html')
 
 
-class ForceList(generics.ListCreateAPIView, ):
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  queryset = Force.objects.all()
-  serializer_class = ForceSerializer
+class ForceList(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUserOrReadOnly]
+    queryset = Force.objects.all()
+    serializer_class = ForceSerializer
+
 
 class ForceDetail(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Force.objects.all()    
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  serializer_class = ForceSerializer
+    queryset = Force.objects.all()
+    permission_classes = [IsAdminUserOrReadOnly]
+    serializer_class = ForceSerializer
+
 
 class OfficerList(generics.ListCreateAPIView, ):
     queryset = Officer.objects.all()
@@ -32,9 +35,9 @@ class OfficerList(generics.ListCreateAPIView, ):
 
 
 class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Officer.objects.all()
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  serializer_class = OfficerSerializer
+    queryset = Officer.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = OfficerSerializer
 
 
 class UserList(generics.ListCreateAPIView, ):
@@ -44,9 +47,9 @@ class UserList(generics.ListCreateAPIView, ):
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-  queryset = User.objects.all()
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = UserSerializer
 
 
 class IncidentList(generics.ListCreateAPIView, ):
@@ -56,9 +59,9 @@ class IncidentList(generics.ListCreateAPIView, ):
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Incident.objects.all()
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  serializer_class = IncidentSerializer
+    queryset = Incident.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = IncidentSerializer
 
 
 class RegistrationAPIView(APIView):
