@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-18-224-153-210.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -91,10 +91,11 @@ WSGI_APPLICATION = 'good_egg_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'good_egg',
-        'USER': 'good_egg_super_user',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('SUPER_USER_NAME'),
         'PASSWORD': env('SUPER_USER_PASSWORD'),
-        'HOST': env('DATABASE_LOCATION')
+        'HOST': env('DATABASE_LOCATION'),
+	'PORT': env('DATABASE_PORT')
     }
 }
 
