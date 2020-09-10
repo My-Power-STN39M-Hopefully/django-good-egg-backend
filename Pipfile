@@ -9,6 +9,11 @@ verify_ssl = true
 django = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
+requests = "*"
+djangorestframework-simplejwt = "*"
+environ = "*"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.8"
