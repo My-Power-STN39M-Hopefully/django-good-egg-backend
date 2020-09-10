@@ -16,48 +16,48 @@ def landing_page(request):
 
 
 class ForceList(generics.ListCreateAPIView, ):
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   queryset = Force.objects.all()
   serializer_class = ForceSerializer
 
 class ForceDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Force.objects.all()    
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   serializer_class = ForceSerializer
 
 class OfficerList(generics.ListCreateAPIView, ):
     queryset = Officer.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = OfficerSerializer
 
 
 class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Officer.objects.all()
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   serializer_class = OfficerSerializer
 
 
 class UserList(generics.ListCreateAPIView, ):
     queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = UserSerializer
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = User.objects.all()
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   serializer_class = UserSerializer
 
 
 class IncidentList(generics.ListCreateAPIView, ):
     queryset = Incident.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Incident.objects.all()
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   serializer_class = IncidentSerializer
 
 
