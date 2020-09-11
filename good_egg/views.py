@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 from rest_framework import generics, mixins, serializers
 from django import core
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ForceSerializer, OfficerSerializer, UserSerializer, IncidentSerializer
+from .serializers import ForceSerializer, OfficerSerializer, IncidentSerializer, PersonSerializer
 from django.contrib.auth.models import User
-from .models import Force, Officer, Incident
+from .models import Force, Officer, Incident, Person
 from django.db.models import Q, Count
 from django.forms.models import model_to_dict
 from jsonview.views import JsonView
@@ -41,16 +41,16 @@ class ForceDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ForceSerializer
 
 
-class UserList(generics.ListCreateAPIView, ):
-    queryset = User.objects.all()
+class PersonList(generics.ListCreateAPIView, ):
+    queryset = Person.objects.all()
     permission_classes = [IsSelfOrAdmin]
-    serializer_class = UserSerializer
+    serializer_class = PersonSerializer
 
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
+class PersonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Person.objects.all()
     permission_classes = [IsSelfOrAdmin]
-    serializer_class = UserSerializer
+    serializer_class = PersonSerializer
 
 
 class IncidentList(generics.ListCreateAPIView, ):
@@ -205,15 +205,15 @@ class GoodEggsBadApples(JsonView):
 class RegistrationAPIView(APIView):
 
     permission_classes = (AllowAny,)
-    serializer_class = UserSerializer
+    serializer_class = PersonSerializer
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = PersonSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
+            person = serializer.save()
             # This method will return the serialized representations of new refresh
-            #  and access tokens for the given user.
-            refresh = RefreshToken.for_user(user)
+            #  and access tokens for the given person.
+            refresh = RefreshToken.for_user(person)
             res = {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
