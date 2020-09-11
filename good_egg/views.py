@@ -3,12 +3,10 @@ from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework import generics, mixins, serializers
 from django import core
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ForceSerializer, OfficerSerializer, IncidentSerializer, PersonSerializer
-from django.contrib.auth.models import User
-from .models import Force, Officer, Incident, Person
+from .serializers import ForceSerializer, OfficerSerializer, IncidentSerializer
+from .models import Force, Officer, Incident
 from django.db.models import Q, Count
 from django.forms.models import model_to_dict
 from jsonview.views import JsonView
@@ -16,10 +14,11 @@ import copy
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import generics, permissions, mixins, status
+from rest_framework import generics, permissions, mixins, status, serializers
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly, IsSelfOrAdmin
+from users.serializers import UserSerializer
 User = get_user_model()
 
 
@@ -37,18 +36,6 @@ class ForceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Force.objects.all()
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = ForceSerializer
-
-
-class PersonList(generics.ListCreateAPIView, ):
-    queryset = Person.objects.all()
-    permission_classes = [IsSelfOrAdmin]
-    serializer_class = PersonSerializer
-
-
-class PersonDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Person.objects.all()
-    permission_classes = [IsSelfOrAdmin]
-    serializer_class = PersonSerializer
 
 
 class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -170,7 +157,7 @@ class GoodEggsBadApples(JsonView):
             if(active_officer_dict['id'] in good_egg_officer_count_by_id):
                 # Set the officers incident count to the calculated value
                 active_officer_dict['count'] = good_egg_officer_count_by_id[active_officer_dict['id']]
-                
+
                 # Add officer to the list of "good eggs"
                 # NOTE: a copy of the object needs to be created, if not then if an officer is found within both dictionaries its count will be whatever amount is set lat
                 good_eggs.append(copy.copy(active_officer_dict))
@@ -197,15 +184,15 @@ class GoodEggsBadApples(JsonView):
 class RegistrationAPIView(APIView):
 
     permission_classes = (AllowAny,)
-    serializer_class = PersonSerializer
+    serializer_class = UserSerializer
 
     def post(self, request):
-        serializer = PersonSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            person = serializer.save()
+            user = serializer.save()
             # This method will return the serialized representations of new refresh
-            #  and access tokens for the given person.
-            refresh = RefreshToken.for_user(person)
+            #  and access tokens for the given user.
+            refresh = RefreshToken.for_user(user)
             res = {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -42,21 +42,9 @@ class Incident(models.Model):
     formal_complaint_number = models.CharField(max_length=100, null=True)
     witnesses_present = models.BooleanField(default=False)
     witnesses_information = models.TextField(null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     private = models.BooleanField(default=False)
     bad_apple = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.category} - {self.date} {self.time}'
-
-
-class Person(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='person', primary_key=True)
-    race = models.CharField(max_length=100, null=True)
-    nationality = models.CharField(max_length=100, null=True)
-    gender = models.CharField(max_length=100, null=True)
-    city = models.CharField(max_length=100, null=True)
-    state = models.CharField(max_length=2, null=True)
-    phone_number = PhoneNumberField(
-        null=True, blank=False, unique=False)
