@@ -17,6 +17,8 @@ django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
 django-cors-headers = "*"
 django-allauth = "*"
 django-rest-auth = "*"
+django-environ = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6.9"
