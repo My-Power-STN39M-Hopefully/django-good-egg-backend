@@ -26,3 +26,9 @@ class IsOwnerOrAdminOrReadOnly(permissions.BasePermission):
 
         # Instance must have an attribute named `owner`.
         return obj.user == request.user
+
+
+class IsSelfOrAdmin(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        return obj == request.user or request.user.is_staff

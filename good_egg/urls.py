@@ -16,17 +16,17 @@ urlpatterns = [
     # force
     path('force/', views.ForceList.as_view(), name='force_list'),
     path('force/<int:pk>', views.ForceDetail.as_view(), name='force_detail'),
-  
+
     # officer
     path('officers/', views.OfficerList.as_view(), name='officer_list'),
     path('officer/<int:pk>', views.OfficerDetail.as_view(), name='officer_detail'),
     path('officers/apples-and-eggs', views.GoodEggsBadApples.as_view(),
          name='good_eggs_bad_apples'),
-  
-    # user
-    path('user/', views.UserList.as_view(), name='user_list'),
-    path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
-    path('user/register', RegistrationAPIView.as_view()),
+
+    # # person
+    path('person/', views.PersonList.as_view(), name='person_list'),
+    path('person/<int:pk>', views.PersonDetail.as_view(), name='person_detail'),
+    path('person/register', RegistrationAPIView.as_view()),
 
     # user authentication
     path('user/signin/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

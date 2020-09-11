@@ -48,3 +48,15 @@ class Incident(models.Model):
 
     def __str__(self):
         return f'{self.category} - {self.date} {self.time}'
+
+
+class Person(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='person', primary_key=True)
+    race = models.CharField(max_length=100, null=True)
+    nationality = models.CharField(max_length=100, null=True)
+    gender = models.CharField(max_length=100, null=True)
+    city = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=2, null=True)
+    phone_number = PhoneNumberField(
+        null=True, blank=False, unique=False)

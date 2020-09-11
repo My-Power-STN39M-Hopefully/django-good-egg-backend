@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 from rest_framework import generics, mixins, serializers
 from django import core
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ForceSerializer, OfficerSerializer, UserSerializer, IncidentSerializer
+from .serializers import ForceSerializer, OfficerSerializer, IncidentSerializer, PersonSerializer
 from django.contrib.auth.models import User
-from .models import Force, Officer, Incident
+from .models import Force, Officer, Incident, Person
 from django.db.models import Q, Count
 from django.forms.models import model_to_dict
 from jsonview.views import JsonView
@@ -19,9 +19,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics, permissions, mixins, status
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
-from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly
+from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly, IsSelfOrAdmin
+User = get_user_model()
 
 User = get_user_model()
+
 
 def landing_page(request):
     return render(request, 'landing_page.html')
@@ -39,16 +41,16 @@ class ForceDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ForceSerializer
 
 
-class UserList(generics.ListCreateAPIView, ):
-    queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = UserSerializer
+class PersonList(generics.ListCreateAPIView, ):
+    queryset = Person.objects.all()
+    permission_classes = [IsSelfOrAdmin]
+    serializer_class = PersonSerializer
 
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = UserSerializer
+class PersonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Person.objects.all()
+    permission_classes = [IsSelfOrAdmin]
+    serializer_class = PersonSerializer
 
 
 class IncidentList(generics.ListCreateAPIView, ):
@@ -56,16 +58,19 @@ class IncidentList(generics.ListCreateAPIView, ):
     permission_classes = [IsOwnerOrAdminOrReadOnly]
     serializer_class = IncidentSerializer
 
+
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
     permission_classes = [IsOwnerOrAdminOrReadOnly]
     serializer_class = IncidentSerializer
-    
+
+
 class RecentIncidents(generics.ListAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = IncidentSerializer
     last_two_weeks = timezone.now().date() - timedelta(days=14)
     queryset = Incident.objects.filter(date__gte=last_two_weeks)
+
 
 class OfficerList(generics.ListCreateAPIView, ):
     queryset = Officer.objects.all()
@@ -76,15 +81,15 @@ class OfficerList(generics.ListCreateAPIView, ):
 class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Officer.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = OfficerSerializer    
-    
+    serializer_class = OfficerSerializer
+
 # This Json view will return two items within a dictionary
 #   1. Under the key bad_apples it will show a list of active officers with a 'count' property. That count is the number of times someone has created a "bad apple" incident with them
 #   2. Under the key good_eggs it will show a list of active officers with a 'count' property. That count is the number of times someone has created a "good egg" incident with them
 #
 # This is done in two parts.
 #   Step 1: Find the number of times a officer is reported being a "good egg" or a "bad apple"
-#       1. Create two sets of dictionaries: bad_apple_officer_count_by_id, good_egg_officer_count_by_id these will store 
+#       1. Create two sets of dictionaries: bad_apple_officer_count_by_id, good_egg_officer_count_by_id these will store
 #          the id of the officer and the number of times they have been reported being a "good egg" or a "bad apple"
 #       2. Loop over all incidents and get the list of active officers
 #       3. If the incident is a "bad apple" incident (incident.bad_apple == True)
@@ -97,14 +102,16 @@ class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
 #           3. If no then add the officer id to good_egg_officer_count_by_id with a value of 1
 #    Step 2: Add the "good egg" and "bad apple" incident count to the list of active officers
 #           1. Loop over the list of active officers
-#           2. If the officer id is present in bad_apple_officer_count_by_id add that value to the officer as "count", 
+#           2. If the officer id is present in bad_apple_officer_count_by_id add that value to the officer as "count",
 #              if not present set it to zero
 #           3. Add officer to the list "bad_apples"
-#           4. If the officer id is present in good_egg_officer_count_by_id add that value to the officer as "count", 
+#           4. If the officer id is present in good_egg_officer_count_by_id add that value to the officer as "count",
 #              if not present set it to zero
 #           5. Add officer to the list of "good_eggs"
-#           6. Return both "good_egg" and "bad_apple" lists ordered with the officer with the highest number of incidents 
+#           6. Return both "good_egg" and "bad_apple" lists ordered with the officer with the highest number of incidents
 #              is shown first.
+
+
 class GoodEggsBadApples(JsonView):
     def get_context_data(self, **kwargs):
         # Create empty dicts for the good eggs and badd apple counts
@@ -172,16 +179,16 @@ class GoodEggsBadApples(JsonView):
                 active_officer_dict['count'] = 0
 
             # Add officer to the list of "good eggs"
-            # NOTE: ALL active officers will return when looking for good eggs, however if the officer has no good egg 
+            # NOTE: ALL active officers will return when looking for good eggs, however if the officer has no good egg
             # incidents will show them with a count of zero
-            # Also NOTE: a copy of the object needs to be created, if not then if an officer is found within both 
+            # Also NOTE: a copy of the object needs to be created, if not then if an officer is found within both
             # dictionaries its count will be whatever amount is set lat
             good_eggs.append(copy.copy(active_officer_dict))
 
         # Get the JSON view context
         context = super(GoodEggsBadApples, self).get_context_data(**kwargs)
 
-        # Sort the list of bad apples with the officers with the highest number of incidents displayed 
+        # Sort the list of bad apples with the officers with the highest number of incidents displayed
         # first and add it to the responce
         context['bad_apples'] = sorted(
             bad_apples, key=lambda i: i['count'], reverse=True)
@@ -192,21 +199,21 @@ class GoodEggsBadApples(JsonView):
             good_eggs, key=lambda i: i['count'], reverse=True)
 
         # Return response
-        return JsonResponse(context)  
+        return JsonResponse(context)
 
-      
+
 class RegistrationAPIView(APIView):
 
     permission_classes = (AllowAny,)
-    serializer_class = UserSerializer
+    serializer_class = PersonSerializer
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = PersonSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
+            person = serializer.save()
             # This method will return the serialized representations of new refresh
-            #  and access tokens for the given user.
-            refresh = RefreshToken.for_user(user)
+            #  and access tokens for the given person.
+            refresh = RefreshToken.for_user(person)
             res = {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
