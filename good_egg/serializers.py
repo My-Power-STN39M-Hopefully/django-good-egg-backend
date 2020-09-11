@@ -58,7 +58,6 @@ class OfficerSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'dob', 'force',
                   'badge_number', 'nationality', 'race', 'gender', 'force_url')
 
-
 class IncidentSerializer(serializers.ModelSerializer):
     officer_urls = serializers.ModelSerializer.serializer_url_field(
         view_name='officer_detail'

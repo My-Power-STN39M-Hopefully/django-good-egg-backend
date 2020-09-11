@@ -93,8 +93,7 @@ class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
 #
 # This is done in two parts.
 #   Step 1: Find the number of times a officer is reported being a "good egg" or a "bad apple"
-#       1. Create two sets of dictionaries: bad_apple_officer_count_by_id, good_egg_officer_count_by_id these will store
-#          the id of the officer and the number of times they have been reported being a "good egg" or a "bad apple"
+#       1. Create two sets of dictionaries: bad_apple_officer_count_by_id, good_egg_officer_count_by_id these will store the id of the officer and the number of times they have been reported being a "good egg" or a "bad apple"
 #       2. Loop over all incidents and get the list of active officers
 #       3. If the incident is a "bad apple" incident (incident.bad_apple == True)
 #           1. Check if active officer id exists in bad_apple_officer_count_by_id
@@ -106,14 +105,11 @@ class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
 #           3. If no then add the officer id to good_egg_officer_count_by_id with a value of 1
 #    Step 2: Add the "good egg" and "bad apple" incident count to the list of active officers
 #           1. Loop over the list of active officers
-#           2. If the officer id is present in bad_apple_officer_count_by_id add that value to the officer as "count",
-#              if not present set it to zero
+#           2. If the officer id is present in bad_apple_officer_count_by_id add that value to the officer as "count", if not present set it to zero
 #           3. Add officer to the list "bad_apples"
-#           4. If the officer id is present in good_egg_officer_count_by_id add that value to the officer as "count",
-#              if not present set it to zero
+#           4. If the officer id is present in good_egg_officer_count_by_id add that value to the officer as "count", if not present set it to zero
 #           5. Add officer to the list of "good_eggs"
-#           6. Return both "good_egg" and "bad_apple" lists ordered with the officer with the highest number of incidents
-#              is shown first.
+#           6. Return both "good_egg" and "bad_apple" lists ordered with the officer with the highest number of incidents is shown first.
 
 
 class GoodEggsBadApples(JsonView):
@@ -165,35 +161,27 @@ class GoodEggsBadApples(JsonView):
             if active_officer_dict['id'] in bad_apple_officer_count_by_id:
                 # Set the officers incident count to the calculated value
                 active_officer_dict['count'] = bad_apple_officer_count_by_id[active_officer_dict['id']]
-            else:
-                # Otherwise set the count to zero
-                active_officer_dict['count'] = 0
 
-            # Add officer to the list of "bad apples"
-            # NOTE: ALL active officers will return when looking for bad apples, however if the officer has no bad apple incidents will show them with a count of zero
-            # Also NOTE: a copy of the object needs to be created, if not then if an officer is found within both dictionaries its count will be whatever amount is set lat
-            bad_apples.append(copy.copy(active_officer_dict))
+                # Add officer to the list of "bad apples"
+                # NOTE: a copy of the object needs to be created, if not then if an officer is found within both dictionaries its count will be whatever amount is set lat
+                bad_apples.append(copy.copy(active_officer_dict))
 
             # If the id of the officer is found with in good_egg_officer_count_by_id
             if(active_officer_dict['id'] in good_egg_officer_count_by_id):
                 # Set the officers incident count to the calculated value
                 active_officer_dict['count'] = good_egg_officer_count_by_id[active_officer_dict['id']]
-            else:
-                # Otherwise set the count to zero
-                active_officer_dict['count'] = 0
-
-            # Add officer to the list of "good eggs"
-            # NOTE: ALL active officers will return when looking for good eggs, however if the officer has no good egg
-            # incidents will show them with a count of zero
-            # Also NOTE: a copy of the object needs to be created, if not then if an officer is found within both
-            # dictionaries its count will be whatever amount is set lat
-            good_eggs.append(copy.copy(active_officer_dict))
+                
+                # Add officer to the list of "good eggs"
+                # NOTE: a copy of the object needs to be created, if not then if an officer is found within both dictionaries its count will be whatever amount is set lat
+                good_eggs.append(copy.copy(active_officer_dict))
 
         # Get the JSON view context
         context = super(GoodEggsBadApples, self).get_context_data(**kwargs)
 
         # Sort the list of bad apples with the officers with the highest number of incidents displayed
         # first and add it to the responce
+        print(bad_apples)
+
         context['bad_apples'] = sorted(
             bad_apples, key=lambda i: i['count'], reverse=True)
 
