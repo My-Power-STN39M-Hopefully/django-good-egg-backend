@@ -167,7 +167,7 @@ class GoodEggsBadApples(JsonView):
 
         # Sort the list of bad apples with the officers with the highest number of incidents displayed
         # first and add it to the responce
-        print(bad_apples)
+        
 
         context['bad_apples'] = sorted(
             bad_apples, key=lambda i: i['count'], reverse=True)
