@@ -14,7 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'name', 'password')
+        fields = ('email', 'name', 'password', 'phone_number', 'race',
+                  'nationality', 'gender', 'gender', 'city', 'state')
 
     def create(self, validated_data):
 
@@ -32,15 +33,19 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
+
 class ForceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Force
-        fields = ('id', 'name', 'city', 'state', 'precinct_phone_number', 'precinct_address')
+        fields = ('id', 'name', 'city', 'state',
+                  'precinct_phone_number', 'precinct_address')
+
 
 class OfficerSerializer(serializers.ModelSerializer):
     force_url = serializers.ModelSerializer.serializer_url_field(
         view_name='force_detail'
     )
+
     class Meta:
         model = Officer
         fields = ('id', 'first_name', 'last_name', 'dob', 'force',
@@ -57,6 +62,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'user_url',
                   'last_name', 'email', 'is_staff', ]
 
+
 class IncidentSerializer(serializers.ModelSerializer):
     officer_urls = serializers.ModelSerializer.serializer_url_field(
         view_name='officer_detail'
@@ -64,6 +70,7 @@ class IncidentSerializer(serializers.ModelSerializer):
     user_url = serializers.ModelSerializer.serializer_url_field(
         view_name='user_detail'
     )
+
     class Meta:
         model = Incident
         fields = ('id', 'category', 'officers', 'date', 'time', 'officer_urls',
