@@ -21,6 +21,7 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = ['person_url',
                   'phone_number', 'race', 'nationality', 'gender', 'city', 'state', 'user', ]
 
+
 def create(self, validated_data):
 
     username = validated_data['user.username']
@@ -38,7 +39,6 @@ def create(self, validated_data):
     user.save()
 
     return user
-
 
 
 class ForceSerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class IncidentSerializer(serializers.ModelSerializer):
         view_name='officer_detail'
     )
     user_url = serializers.ModelSerializer.serializer_url_field(
-        view_name='user_detail'
+        view_name='person_detail'
     )
 
     class Meta:
