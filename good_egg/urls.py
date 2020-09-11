@@ -3,7 +3,6 @@ from .models import Force
 from django.urls import path, include
 from . import views
 from . import models
-from .views import RegistrationAPIView
 
 
 # Create your urls here.
