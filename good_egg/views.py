@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework import generics, mixins, serializers
 from django import core
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ForceSerializer, OfficerSerializer, IncidentSerializer
@@ -15,7 +14,7 @@ import copy
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import generics, permissions, mixins, status
+from rest_framework import generics, permissions, mixins, status, serializers
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly, IsSelfOrAdmin
