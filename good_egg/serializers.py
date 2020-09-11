@@ -17,16 +17,9 @@ class PersonSerializer(serializers.ModelSerializer):
         return self
 
     class Meta:
-<<<<<<< HEAD
         model = Person
         fields = ['person_url',
                   'phone_number', 'race', 'nationality', 'gender', 'city', 'state', 'user', ]
-
-=======
-        model = User
-        fields = ('email', 'name', 'password', 'phone_number', 'race',
-                  'nationality', 'gender', 'gender', 'city', 'state')
->>>>>>> added crud functionality on user model for self or admin only
 
 def create(self, validated_data):
 
@@ -65,21 +58,6 @@ class OfficerSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'dob', 'force',
                   'badge_number', 'nationality', 'race', 'gender', 'force_url')
 
-
-<<<<<<< HEAD
-=======
-class UserSerializer(serializers.ModelSerializer):
-    user_url = serializers.ModelSerializer.serializer_url_field(
-        view_name='user_detail'
-    )
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'user_url',
-                  'last_name', 'email', 'is_staff', ]
-
-
->>>>>>> added crud functionality on user model for self or admin only
 class IncidentSerializer(serializers.ModelSerializer):
     officer_urls = serializers.ModelSerializer.serializer_url_field(
         view_name='officer_detail'
