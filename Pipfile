@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
+django-jsonview = "*"
 
 [requires]
 python_version = "3.8"
