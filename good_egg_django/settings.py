@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
-    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'localhost']
+    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'localhost', 'ec2-18-222-34-243.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
