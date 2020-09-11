@@ -22,8 +22,6 @@ from django.contrib.auth import get_user_model
 from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly, IsSelfOrAdmin
 User = get_user_model()
 
-User = get_user_model()
-
 
 def landing_page(request):
     return render(request, 'landing_page.html')
@@ -51,6 +49,12 @@ class PersonDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
     permission_classes = [IsSelfOrAdmin]
     serializer_class = PersonSerializer
+
+
+class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Officer.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = OfficerSerializer
 
 
 class IncidentList(generics.ListCreateAPIView, ):
