@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
+django-jsonview = "*"
 requests = "*"
 djangorestframework-simplejwt = "*"
 environ = "*"

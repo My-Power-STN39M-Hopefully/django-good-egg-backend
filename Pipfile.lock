@@ -46,6 +46,13 @@
             "index": "pypi",
             "version": "==3.1.1"
         },
+        "django-jsonview": {
+            "hashes": [
+                "sha256:1871983f6c7ab0bec1bad3249b06ce64c47d3bed57cd190f87e5acaf65722ebb",
+                "sha256:77345393f8e8bb3279b9ba9fb2db687adfa74d41feab972521545d47103d321b"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
         "django-cors-headers": {
             "hashes": [
                 "sha256:9322255c296d5f75089571f29e520c83ff9693df17aa3cf9f6a4bea7c6740169",
