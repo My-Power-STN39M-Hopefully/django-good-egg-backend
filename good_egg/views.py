@@ -44,19 +44,22 @@ class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class IncidentList(generics.ListCreateAPIView, ):
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
     queryset = Incident.objects.all()
-    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
-    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
 
 
 class RecentIncidents(generics.ListAPIView):
-    permission_classes = [IsAdminUserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
     last_two_weeks = timezone.now().date() - timedelta(days=14)
     queryset = Incident.objects.filter(date__gte=last_two_weeks)

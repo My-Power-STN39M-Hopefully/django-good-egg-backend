@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_auth.registration.serializers import RegisterSerializer
 
 from users.models import CustomUser
 from .managers import CustomUserManager
