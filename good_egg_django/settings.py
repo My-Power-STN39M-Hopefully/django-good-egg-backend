@@ -155,6 +155,7 @@ if(env('IS_PRODUCTION') == True):
     )
 else:
     CORS_ORIGIN_ALLOW_ALL = True
+    CSRF_COOKIE_DOMAIN=["*"]
 
 
 REST_FRAMEWORK = {
@@ -167,6 +168,9 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_CREDENTIALS = True
+
+CSRF_COOKIE_NAME = "csrftoken"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
