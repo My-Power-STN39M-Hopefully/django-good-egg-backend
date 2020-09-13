@@ -37,7 +37,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
-    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'localhost', 'ec2-18-222-34-243.us-east-2.compute.amazonaws.com']
+    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'webserver.dev.good-egg-reports.com', 'localhost', 'ec2-18-222-34-243.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -170,7 +170,6 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_COOKIE_NAME = "csrftoken"
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
