@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
 
-
 class ForceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Force
@@ -27,25 +26,11 @@ class IncidentSerializer(serializers.ModelSerializer):
     officer_urls = serializers.ModelSerializer.serializer_url_field(
         view_name='officer_detail'
     )
-    
     user_url = serializers.ModelSerializer.serializer_url_field(
         view_name='user_detail'
     )
 
     def create(self, validated_data):
-        """Override ``create`` to provide a user via request.user by default.
-        This is required since the read_only ``user`` field is not included by
-        default anymore since
-        https://github.com/encode/django-rest-framework/pull/5886.
-        """
-
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
         user = CustomUser.objects.get(id=self.context['request'].user.id)
         validated_data['user'] = user
         return super(IncidentSerializer, self).create(validated_data)

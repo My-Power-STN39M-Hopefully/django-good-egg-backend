@@ -1,7 +1,12 @@
 from django.db import models
 from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
+def date_must_be_past(date):
+    if date > timezone.now().date():
+        raise ValidationError("Date cannot be in the future.")
 
 class Force(models.Model):
     name = models.CharField(max_length=100)
@@ -18,7 +23,7 @@ class Force(models.Model):
 class Officer(models.Model):
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100)
-    dob = models.DateField(null=True)
+    dob = models.DateField(null=True, validators=[date_must_be_past])
     badge_number = models.CharField(max_length=100, null=True)
     nationality = models.CharField(max_length=100, null=True)
     race = models.CharField(max_length=100, null=True)
@@ -34,7 +39,7 @@ class Incident(models.Model):
     category = models.CharField(max_length=100)
     officers = models.ManyToManyField(Officer)
     officer_description = models.TextField(null=True, blank=True)
-    date = models.DateField()
+    date = models.DateField(validators=[date_must_be_past])
     time = models.TimeField()
     location = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField()
