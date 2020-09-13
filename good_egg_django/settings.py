@@ -163,6 +163,10 @@ else:
                             ".", ".dev.good-egg-reports.com"]
 
 
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'sessionId',
+]
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
