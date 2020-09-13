@@ -145,7 +145,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if(env('IS_PRODUCTION') == True):
     CORS_ORIGIN_ALLOW_ALL = False
-    CSRF_COOKIE_DOMAIN = ['good-egg-reports.com']
+    CSRF_COOKIE_DOMAIN = ['http://good-egg-reports.com',
+                          'https://good-egg-reports.com']
     CORS_ORIGIN_WHITELIST = (
         env('LOCALHOST_URL'),
         env('DEVELOPMENT_URL'),
@@ -156,8 +157,10 @@ if(env('IS_PRODUCTION') == True):
     )
 else:
     CORS_ORIGIN_ALLOW_ALL = True
-    CSRF_COOKIE_DOMAIN = ["localhost", ".", ".dev.good-egg-reports.com"]
-    CSRF_TRUSTED_ORIGINS = ["localhost", ".", ".dev.good-egg-reports.com"]
+    CSRF_COOKIE_DOMAIN = ["http://localhost:3000",
+                          'https://localhost:3000' ".", ".dev.good-egg-reports.com"]
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "https://localhost:3000",
+                            ".", ".dev.good-egg-reports.com"]
 
 
 REST_FRAMEWORK = {
@@ -170,8 +173,6 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_CREDENTIALS = True
-
-CSRF_COOKIE_NAME = "csrftoken"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
