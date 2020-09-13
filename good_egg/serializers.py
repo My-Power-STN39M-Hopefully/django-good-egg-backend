@@ -28,6 +28,8 @@ class IncidentSerializer(serializers.ModelSerializer):
         view_name='user_detail'
     )
 
+    user = serializers.ReadOnlyField(source='user.id')
+
     class Meta:
         model = Incident
         fields = ('id', 'category', 'officers', 'date', 'time',
