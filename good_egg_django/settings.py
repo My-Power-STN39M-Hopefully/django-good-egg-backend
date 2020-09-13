@@ -157,6 +157,7 @@ if(env('IS_PRODUCTION') == True):
 else:
     CORS_ORIGIN_ALLOW_ALL = True
     CSRF_COOKIE_DOMAIN = ["localhost", ".", "dev.good-egg-reports.com"]
+    CSRF_TRUSTED_ORIGINS = ["localhost", ".", "dev.good-egg-reports.com"]
 
 
 REST_FRAMEWORK = {
