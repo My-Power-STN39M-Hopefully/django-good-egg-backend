@@ -15,6 +15,8 @@ class CustomUser(AbstractUser):
     nationality = models.CharField(max_length=100, null=True)
     gender = models.CharField(max_length=100, null=True)
     city = models.CharField(max_length=100, null=True)
+    first_name = models.CharField(max_length=100, null=True)
+    last_name = models.CharField(max_length=100, null=True)
     state = models.CharField(max_length=2, null=True)
     phone_number = PhoneNumberField(
         null=True, blank=False, unique=False)
