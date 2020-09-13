@@ -3,7 +3,6 @@ from rest_framework import permissions
 
 
 class IsAdminUserOrReadOnly(IsAdminUser):
-
     def has_permission(self, request, view):
         is_admin = super(
             IsAdminUserOrReadOnly,
@@ -30,5 +29,9 @@ class IsOwnerOrAdminOrReadOnly(permissions.BasePermission):
 
 class IsSelfOrAdmin(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-
         return obj == request.user or request.user.is_staff
+
+
+class PostWithoutAuth(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.method == "POST"

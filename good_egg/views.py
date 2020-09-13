@@ -13,7 +13,6 @@ from jsonview.views import JsonView
 import copy
 from django.utils import timezone
 from datetime import timedelta
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics, permissions, mixins, status, serializers
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
