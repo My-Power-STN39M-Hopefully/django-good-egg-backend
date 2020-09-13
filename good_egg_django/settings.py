@@ -164,7 +164,7 @@ else:
 
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
-    'sessionId',
+    'sessionid',
 ]
 
 REST_FRAMEWORK = {
