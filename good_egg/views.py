@@ -15,10 +15,8 @@ from django.utils import timezone
 from datetime import timedelta
 from rest_framework import generics, permissions, mixins, status, serializers
 from rest_framework.permissions import AllowAny
-from django.contrib.auth import get_user_model
 from .permissions import IsAdminUserOrReadOnly, IsOwnerOrAdminOrReadOnly, IsSelfOrAdmin
 from users.serializers import UserSerializer
-User = get_user_model()
 
 
 def landing_page(request):
@@ -44,14 +42,17 @@ class OfficerDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class IncidentList(generics.ListCreateAPIView, ):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault(),
+    )
     queryset = Incident.objects.all()
-    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
-    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = IncidentSerializer
 
 

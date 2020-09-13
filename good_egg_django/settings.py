@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 from pathlib import Path
 from datetime import timedelta
 import environ
@@ -156,7 +157,6 @@ if(env('IS_PRODUCTION') == True):
 else:
     CORS_ORIGIN_ALLOW_ALL = True
 
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -165,6 +165,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'withcredentials',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

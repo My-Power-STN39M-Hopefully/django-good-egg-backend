@@ -14,9 +14,9 @@ urlpatterns = [
     path('force/<int:pk>', views.ForceDetail.as_view(), name='force_detail'),
 
     # officer
-    path('officers/', views.OfficerList.as_view(), name='officer_list'),
+    path('officer/', views.OfficerList.as_view(), name='officer_list'),
     path('officer/<int:pk>', views.OfficerDetail.as_view(), name='officer_detail'),
-    path('officers/apples-and-eggs', views.GoodEggsBadApples.as_view(),
+    path('officer/apples-and-eggs', views.GoodEggsBadApples.as_view(),
          name='good_eggs_bad_apples'),
 
     # incident

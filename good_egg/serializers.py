@@ -1,43 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import Force, Officer, Incident
 from django.contrib.auth import authenticate
+from users.models import CustomUser
 from django.contrib.auth import get_user_model
-User = get_user_model()
-
-
-# class PersonSerializer(serializers.ModelSerializer):
-
-#     person_url = serializers.ModelSerializer.serializer_url_field(
-#         view_name='person_detail')
-#     # user = UserSerializer
-
-#     def get(self, validated_data):
-#         self.first_name = self.user.first_name
-#         return self
-
-#     class Meta:
-#         model = Person
-#         fields = ['person_url',
-#                   'phone_number', 'race', 'nationality', 'gender', 'city', 'state', 'user']
-
-#     def create(self, validated_data):
-#         user = validated_data['user']
-#         # username = validated_data['username']
-#         # first_name = validated_data['first_name']
-#         # last_name = validated_data['last_name']
-#         # email = validated_data['email']
-#         # password = validated_data['password']
-#         user = User(email=email, first_name=first_name,
-#                     last_name=last_name, password=password, username=username)
-#         # Sets the user’s password to the given raw string,
-#         # taking care of the password hashing. Doesn’t save the User object.
-
-#         user.set_password(password)
-#         # save() method to save the user object
-#         user.save()
-
-#         return user
 
 
 class ForceSerializer(serializers.ModelSerializer):
@@ -62,11 +27,34 @@ class IncidentSerializer(serializers.ModelSerializer):
     officer_urls = serializers.ModelSerializer.serializer_url_field(
         view_name='officer_detail'
     )
+    
     user_url = serializers.ModelSerializer.serializer_url_field(
-        view_name='person_detail'
+        view_name='user_detail'
     )
+
+    def create(self, validated_data):
+        """Override ``create`` to provide a user via request.user by default.
+        This is required since the read_only ``user`` field is not included by
+        default anymore since
+        https://github.com/encode/django-rest-framework/pull/5886.
+        """
+
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+        user = CustomUser.objects.get(id=self.context['request'].user.id)
+        validated_data['user'] = user
+        return super(IncidentSerializer, self).create(validated_data)
+    
+         
+    
 
     class Meta:
         model = Incident
         fields = ('id', 'category', 'officers', 'date', 'time', 'officer_urls',
-                  'location', 'description', 'formal_complaint', 'user_url', 'formal_complaint_number', 'user',  'witnesses_present', 'witnesses_information', 'private', 'bad_apple')
+                  'location', 'description', 'formal_complaint', 'user_url', 'formal_complaint_number',  'witnesses_present', 'witnesses_information', 'private', 'bad_apple', 'user')
+        write_only_fields = ('user',)
