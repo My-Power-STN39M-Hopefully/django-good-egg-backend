@@ -35,8 +35,8 @@ class IncidentSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         return super(IncidentSerializer, self).create(validated_data)
     
-         
-    
+
+    user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
         model = Incident

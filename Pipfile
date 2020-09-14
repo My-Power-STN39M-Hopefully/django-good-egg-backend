@@ -14,10 +14,10 @@ requests = "*"
 environ = "*"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
 django-cors-headers = "*"
-django-allauth = "*"
 django-rest-auth = "*"
 django-environ = "*"
 gunicorn = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.6.9"

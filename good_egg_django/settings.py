@@ -37,7 +37,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
-    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'localhost', 'ec2-18-222-34-243.us-east-2.compute.amazonaws.com']
+    'ec2-18-224-153-210.us-east-2.compute.amazonaws.com', 'webserver.dev.good-egg-reports.com', 'localhost', 'ec2-18-222-34-243.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -93,10 +93,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'good_egg_django.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -127,6 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
 }
@@ -146,6 +145,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if(env('IS_PRODUCTION') == True):
     CORS_ORIGIN_ALLOW_ALL = False
+    CSRF_COOKIE_DOMAIN = ['http://good-egg-reports.com',
+                          'https://good-egg-reports.com']
     CORS_ORIGIN_WHITELIST = (
         env('LOCALHOST_URL'),
         env('DEVELOPMENT_URL'),
@@ -156,6 +157,10 @@ if(env('IS_PRODUCTION') == True):
     )
 else:
     CORS_ORIGIN_ALLOW_ALL = True
+    CSRF_COOKIE_DOMAIN = ["http://localhost:3000",
+                          'https://localhost:3000' ".", ".dev.good-egg-reports.com"]
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "https://localhost:3000",
+                            ".", ".dev.good-egg-reports.com"]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -168,6 +173,8 @@ REST_FRAMEWORK = {
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'withcredentials',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
