@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: "[FEATURE]"
-labels: enhancement
+name: Dev Ops Request
+about: Dev Ops Request
+title: "[DEV OPS]"
+labels: dev-ops
 assignees: ''
 
 ---
@@ -15,6 +15,3 @@ A clear and concise description of what you want to happen.
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
-
-**Outside Sources**
-Any outside resources that can or must be used.

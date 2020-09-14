@@ -1,0 +1,19 @@
+name: "[A] Repo Project Main add on Issues/PRs"
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, synchronize]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+jobs:
+  assign_one_project:
+    runs-on: ubuntu-latest
+    name: Assign to Main Repo Project
+    steps:
+    - name: Assign issues and pull request to project
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/My-Power-STN39M-Hopefully/django-good-egg-backend/projects/2'

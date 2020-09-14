@@ -1,0 +1,4 @@
+# Set to true to add assignees to pull requests or author for whoever made the request
+addAssignees: author
+
+# See additional options at: https://github.com/apps/auto-assign
