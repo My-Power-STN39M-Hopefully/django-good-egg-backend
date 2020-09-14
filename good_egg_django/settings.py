@@ -75,8 +75,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'good_egg_django.urls'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
 TEMPLATES = [
     {
