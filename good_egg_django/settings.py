@@ -67,7 +67,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -145,22 +144,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if(env('IS_PRODUCTION') == True):
     CORS_ORIGIN_ALLOW_ALL = False
-    CSRF_COOKIE_DOMAIN = ['http://good-egg-reports.com',
-                          'https://good-egg-reports.com']
     CORS_ORIGIN_WHITELIST = (
-        env('LOCALHOST_URL'),
-        env('DEVELOPMENT_URL'),
         env('PRODUCTION_URL'),
-        env('LOCALHOST_URL_HTTPS'),
         env('PRODUCTION_URL_HTTPS'),
-        env('DEVELOPMENT_URL_HTTPS')
     )
 else:
     CORS_ORIGIN_ALLOW_ALL = True
-    CSRF_COOKIE_DOMAIN = ["http://localhost:3000",
-                          'https://localhost:3000' ".", ".dev.good-egg-reports.com"]
-    CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "https://localhost:3000",
-                            ".", ".dev.good-egg-reports.com"]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -170,9 +159,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'withcredentials',
-]
 
 CORS_ALLOW_CREDENTIALS = True
 
