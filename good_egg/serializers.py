@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import Force, Officer, Incident
 from django.contrib.auth import authenticate
+from users.models import CustomUser
 from django.contrib.auth import get_user_model
-User = get_user_model()
 
 class ForceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,13 +23,23 @@ class OfficerSerializer(serializers.ModelSerializer):
 
 
 class IncidentSerializer(serializers.ModelSerializer):
+    officer_urls = serializers.ModelSerializer.serializer_url_field(
+        view_name='officer_detail'
+    )
     user_url = serializers.ModelSerializer.serializer_url_field(
         view_name='user_detail'
     )
+
+    def create(self, validated_data):
+        user = CustomUser.objects.get(id=self.context['request'].user.id)
+        validated_data['user'] = user
+        return super(IncidentSerializer, self).create(validated_data)
+    
 
     user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
         model = Incident
-        fields = ('id', 'category', 'officers', 'date', 'time',
-                  'location', 'description', 'formal_complaint', 'user_url', 'formal_complaint_number', 'user',  'witnesses_present', 'witnesses_information', 'private', 'bad_apple')
+        fields = ('id', 'category', 'officers', 'date', 'time', 'officer_urls',
+                  'location', 'description', 'formal_complaint', 'user_url', 'formal_complaint_number',  'witnesses_present', 'witnesses_information', 'private', 'bad_apple', 'user')
+        write_only_fields = ('user',)

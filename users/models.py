@@ -11,20 +11,21 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    race = models.CharField(max_length=100, null=True)
-    nationality = models.CharField(max_length=100, null=True)
-    gender = models.CharField(max_length=100, null=True)
-    city = models.CharField(max_length=100, null=True)
-    first_name = models.CharField(max_length=100, null=True)
-    last_name = models.CharField(max_length=100, null=True)
-    state = models.CharField(max_length=2, null=True)
+    objects = CustomUserManager()
+
+    race = models.CharField(max_length=100, blank=True, null=True)
+    nationality = models.CharField(max_length=100, blank=True, null=True)
+    gender = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=2, blank=True, null=True)
     phone_number = PhoneNumberField(
         null=True, blank=False, unique=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    objects = CustomUserManager()
 
     def __str__(self):
         return self.email

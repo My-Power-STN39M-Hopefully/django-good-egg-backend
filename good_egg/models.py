@@ -37,8 +37,9 @@ class Officer(models.Model):
 
 class Incident(models.Model):
     category = models.CharField(max_length=100)
+    officers = models.ManyToManyField(Officer)
+    officer_description = models.TextField(null=True, blank=True)
     officers = models.ManyToManyField(Officer, blank=True)
-    officer_description = models.TextField()
     date = models.DateField(validators=[date_must_be_past])
     time = models.TimeField()
     location = models.CharField(max_length=100, null=True, blank=True)

@@ -162,11 +162,6 @@ else:
     CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "https://localhost:3000",
                             ".", ".dev.good-egg-reports.com"]
 
-
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'sessionid',
-]
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -175,6 +170,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'withcredentials',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
